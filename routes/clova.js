@@ -3,6 +3,7 @@ let router = express.Router();
 const clova = require('@line/clova-cek-sdk-nodejs');
 let fs = require("fs");
 const crypto = require("crypto");
+let ikajson = require("./ikaaccess.js");
 
 /* read file & static */
 const cert = fs.readFileSync("./routes/signature-public-key.pem", "utf8");
@@ -86,13 +87,13 @@ function Build_response(msg, shouldEndSession) {
   return tmp;
 }
 
-function asknow(jsonBody) {
+async function asknow(jsonBody) {
   if (!jsonBody.request.intent.slots) {
-    let msg = "ごめんなさい、バトルタイプを読み取れませんでした。";
+    let msg = "ごめんなさい、バトルタイプを読み取れませんでした。もう一度お願いします。";
     return Build_response(msg, false);
   }
   const BType = jsonBody.request.intent.slots.ButtleType.value;
-  let msg = BType;
+  let msg = await ikajson.getNow(BType);
   return Build_response(msg, true);
 }
 
@@ -110,7 +111,7 @@ router.post('/', function(req, res, next) {
     res.status(403);
     res.send({"message": "認証エラーです"});
   }
-  data = start_session(jsonBody);
+  data = start_session(body);
   res.send(data);
 });
 
