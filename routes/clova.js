@@ -26,7 +26,9 @@ function signature_check(jsonBody, headerSignature) {
 
 /* start */
 function start_session(jsonBody) {
-  return request_check(jsonBody);
+  return new Promise(function(resolve, reject) {
+    resolve(request_check(jsonBody));
+  });
 }
 
 function request_check(jsonBody) {
@@ -94,6 +96,7 @@ async function asknow(jsonBody) {
   }
   const BType = jsonBody.request.intent.slots.ButtleType.value;
   let msg = await ikajson.getNow(BType);
+  console.log(msg);
   return Build_response(msg, true);
 }
 
@@ -104,14 +107,14 @@ router.get('/', function(req, res, next) {
 });
 
 /* main */
-router.post('/', function(req, res, next) {
+router.post('/', async function(req, res, next) {
   const body = req.body;
   const signature = req.headers.signaturecek || req.headers.SignatureCEK;
   if (!signature_check(body, signature)) {
     res.status(403);
     res.send({"message": "認証エラーです"});
   }
-  data = start_session(body);
+  data = await start_session(body);
   res.send(data);
 });
 

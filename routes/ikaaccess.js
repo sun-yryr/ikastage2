@@ -28,7 +28,7 @@ exports.getNow = function(ButtleType) {
         let now_unix = Math.round( date.getTime() / 1000 );
         const option = {url: url, encoding: "utf8"};
         request.get(option, function(error, res, body) {
-            const first = ikajson(body, 0);
+            const first = ikajson(JSON.parse(body), 0);
             let msg = "ただいまのルールは" +first.rule+ "。";
             msg += "ステージは" +first.stage[0].name+ "と" +first.stage[1].name+ "です。";
             if (first.end_t - now_unix < 1800) {
