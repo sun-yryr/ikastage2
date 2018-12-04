@@ -1,13 +1,8 @@
 let express = require('express');
 let router = express.Router();
-const clova = require('@line/clova-cek-sdk-nodejs');
 let fs = require("fs");
 const crypto = require("crypto");
 let ikajson = require("./ikaaccess.js");
-
-/* read file & static */
-const cert = fs.readFileSync("./routes/signature-public-key.pem", "utf8");
-const applicationId = "com.sun-yryr.api.ikastage";
 
 /* signature check */
 function signature_check(jsonBody, headerSignature) {
@@ -54,17 +49,15 @@ function intent_check(jsonBody) {
     case "AskNow_Buttle":
       returnJson = asknow(jsonBody);
       break;
-    case "Clova.GuideIntent":
+    case "AMAZON.HelpIntent":
       msg = "今のガチマッチを教えて。のように話しかけてください。";
       returnJson = Build_response(msg, false);
       break;
-    case "Clova.CancelIntent":
+    case "AMAZON.CancelIntent":
       msg = "終了します。またのご利用お待ちしています。";
       returnJson = Build_response(msg, true);
       break;
-    case "Clova.YesIntent":
-      break;
-    case "Clova.NoIntent":
+    case "AMAZON.StopIntent":
       break;
   }
   return returnJson;
@@ -77,15 +70,9 @@ function Build_response(msg, shouldEndSession) {
     "sessionAttributes": {},
     "response": {
       "outputSpeech": {
-        "type": "SimpleSpeech",
-        "values": {
-            "type": "PlainText",
-            "lang": "ja",
-            "value": msg
-        }
+        "type": "PlainText",
+        "text": msg,
       },
-      "card": {},
-      "directives": [],
       "shouldEndSession": shouldEndSession
     }
   }
@@ -93,30 +80,25 @@ function Build_response(msg, shouldEndSession) {
 }
 
 async function asknow(jsonBody) {
-  if (!jsonBody.request.intent.slots) {
+  if (!jsonBody.request.intent.slots.rule.value) {
     let msg = "ごめんなさい、バトルタイプを読み取れませんでした。もう一度お願いします。";
     return Build_response(msg, false);
   }
-  const BType = jsonBody.request.intent.slots.ButtleType.value;
+  const BType = jsonBody.request.intent.slots.rule.value;
   let msg = await ikajson.getNow(BType);
   //console.log(msg);
   return Build_response(msg, true);
 }
 
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
-
 /* main */
 router.post('/', async function(req, res, next) {
   const body = req.body;
-  const signature = req.headers.signaturecek || req.headers.SignatureCEK;
+  /*const signature = req.headers.signaturecek || req.headers.SignatureCEK;
   if (!signature_check(body, signature)) {
     res.status(403);
     res.send({"message": "認証エラーです"});
-  }
+  }*/
   data = await start_session(body);
   res.send(data);
 });
