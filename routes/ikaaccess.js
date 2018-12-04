@@ -30,7 +30,8 @@ exports.getNow = function(ButtleType) {
         request.get(option, function(error, res, body) {
             const first = ikajson(JSON.parse(body), 0);
             let msg = "ただいまのルールは" +first.rule+ "。";
-            msg += "ステージは" +first.stage[0].name+ "と" +first.stage[1].name+ "です。";
+            msg += "ステージは" +first.stage[0].name+ "と" +first.stage[1].name+ "で、";
+            msg += "残りは" +(first.end_t - now_unix)/60+ "分です。";
             if (first.end_t - now_unix < 1800) {
                 const second = ikajson(body, 1);
                 msg += "次のルールは" +second.rule+ "。";
