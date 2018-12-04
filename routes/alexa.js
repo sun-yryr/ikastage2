@@ -79,7 +79,7 @@ async function asknow(jsonBody) {
     let msg = "ごめんなさい、バトルタイプを読み取れませんでした。もう一度お願いします。";
     return Build_response(msg, false);
   }
-  const BType = jsonBody.request.intent.slots.rule.value;
+  const BType = jsonBody.request.intent.slots.rule.resolutions.resolutionsPerAuthority[0].values[0].value.name;
   let msg = await ikajson.getNow(BType);
   //console.log(msg);
   return Build_response(msg, true);
