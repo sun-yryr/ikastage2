@@ -98,7 +98,7 @@ async function asknow(jsonBody) {
   }
   const BType = jsonBody.request.intent.slots.ButtleType.value;
   let msg = await ikajson.getNow(BType);
-  console.log(msg);
+  //console.log(msg);
   return Build_response(msg, true);
 }
 

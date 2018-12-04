@@ -37,6 +37,7 @@ exports.getNow = function(ButtleType) {
                 msg += "次のルールは" +second.rule+ "。";
                 msg += "ステージは" +second.stage[0].name+ "と" +second.stage[1].name+ "です。";
             }
+	    msg += "次のステージまで、残り" +parseInt((first.end_t - now_unix)/60)+ "分です。";
             resolve(msg);
         });
     });
