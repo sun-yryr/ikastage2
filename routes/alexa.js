@@ -4,16 +4,11 @@ let fs = require("fs");
 const crypto = require("crypto");
 let ikajson = require("./ikaaccess.js");
 
+const applicationId = "amzn1.ask.skill.bcb931ed-be73-4a8a-9476-dcaccb30bee8";
+
 /* signature check */
-function signature_check(jsonBody, headerSignature) {
-  let verifer = crypto.createVerify("RSA-SHA256");
-  verifer.update(JSON.stringify(jsonBody), "utf8");
-  //console.log("header", headerSignature);
-  //console.log("cert", cert);
-  const signature = verifer.verify(cert, headerSignature, "base64");
-  if (!signature) return false;
-  //console.log(signature); trueで認証成功
-  const appId_check = jsonBody.context.System.application.applicationId == applicationId;
+function signature_check(jsonBody) {
+  const appId_check = jsonBody.session.application.applicationId == applicationId;
   if (!appId_check) return false;
   //console.log(appId_check);
   return true;
@@ -94,11 +89,11 @@ async function asknow(jsonBody) {
 /* main */
 router.post('/', async function(req, res, next) {
   const body = req.body;
-  /*const signature = req.headers.signaturecek || req.headers.SignatureCEK;
-  if (!signature_check(body, signature)) {
+  //const signature = req.headers.signaturecek || req.headers.SignatureCEK;
+  if (!signature_check(body)) {
     res.status(403);
     res.send({"message": "認証エラーです"});
-  }*/
+  }
   data = await start_session(body);
   res.send(data);
 });
