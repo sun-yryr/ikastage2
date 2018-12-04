@@ -1,0 +1,47 @@
+{
+    "version": "1.0",
+    "session": {
+        "sessionId": "9c22c19a-c193-4730-8144-28e5c1505730",
+        "sessionAttributes": {},
+        "user": {
+            "userId": "dwRwvNg9RwuvvMS3_X7Z5w",
+            "accessToken": "ab522e24-0ea5-42b4-bbff-1d49e62a531d"
+        },
+        "new": true
+    },
+    "context": {
+        "System": {
+            "application": {
+                "applicationId": "com.sun-yryr.api.ikastage"
+            },
+            "user": {
+                "userId": "dwRwvNg9RwuvvMS3_X7Z5w",
+                "accessToken": "ab522e24-0ea5-42b4-bbff-1d49e62a531d"
+            },
+            "device": {
+                "deviceId": "2c2c96f1-a7d1-4d61-8807-25182bbe82aa",
+                "display": {
+                    "size": "l100",
+                    "orientation": "landscape",
+                    "dpi": 96,
+                    "contentLayer": {
+                        "width": 640,
+                        "height": 360
+                    }
+                }
+            }
+        }
+    },
+    "request": {
+        "type": "IntentRequest",
+        "intent": {
+            "name": "AskNow_Buttle",
+            "slots": {
+                "ButtleType": {
+                    "name": "ButtleType",
+                    "value": "ガチマッチ"
+                }
+            }
+        }
+    }
+}
