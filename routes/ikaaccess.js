@@ -5,8 +5,8 @@ function ikajson(body, num) {
         "rule": body.result[num].rule_ex.name,
         "stage": [
             {
-                "name": body.result[num].maps_ex[num].name,
-                "image": body.result[num].maps_ex[num].image
+                "name": body.result[num].maps_ex[0].name,
+                "image": body.result[num].maps_ex[0].image
             },
             {
                 "name": body.result[num].maps_ex[1].name,
@@ -30,10 +30,9 @@ exports.getNow = function(ButtleType) {
         request.get(option, function(error, res, body) {
             const first = ikajson(JSON.parse(body), 0);
             let msg = "ただいまのルールは" +first.rule+ "。";
-            msg += "ステージは" +first.stage[0].name+ "と" +first.stage[1].name+ "で、";
-            msg += "残りは" +(first.end_t - now_unix)/60+ "分です。";
+            msg += "ステージは" +first.stage[0].name+ "と" +first.stage[1].name+ "です。";
             if (first.end_t - now_unix < 1800) {
-                const second = ikajson(body, 1);
+                const second = ikajson(JSON.parse(body), 1);
                 msg += "次のルールは" +second.rule+ "。";
                 msg += "ステージは" +second.stage[0].name+ "と" +second.stage[1].name+ "です。";
             }

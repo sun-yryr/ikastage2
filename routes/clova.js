@@ -49,16 +49,17 @@ function request_check(jsonBody) {
 
 function intent_check(jsonBody) {
   let returnJson;
+  let msg;
   switch(jsonBody.request.intent.name) {
     case "AskNow_Buttle":
       returnJson = asknow(jsonBody);
       break;
     case "Clova.GuideIntent":
-      let msg = "今のガチマッチを教えて。のように話しかけてください。";
+      msg = "今のガチマッチを教えて。のように話しかけてください。";
       returnJson = Build_response(msg, false);
       break;
     case "Clova.CancelIntent":
-      let msg = "終了します。またのご利用お待ちしています。";
+      msg = "終了します。またのご利用お待ちしています。";
       returnJson = Build_response(msg, true);
       break;
     case "Clova.YesIntent":
