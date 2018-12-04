@@ -79,6 +79,12 @@ async function asknow(jsonBody) {
     let msg = "ごめんなさい、バトルタイプを読み取れませんでした。もう一度お願いします。";
     return Build_response(msg, false);
   }
+  //console.log(jsonBody.request.intent.slots.rule.resolutions.resolutionsPerAuthority[0].status.code);
+  if (jsonBody.request.intent.slots.rule.resolutions.resolutionsPerAuthority[0].status.code == "ER_SUCCESS_NO_MATCH") {
+    let msg = "ごめんなさい、バトルタイプを読み取れませんでした。もう一度お願いします。";
+    return Build_response(msg, false);
+  }
+  //console.log(jsonBody.request.intent);
   const BType = jsonBody.request.intent.slots.rule.resolutions.resolutionsPerAuthority[0].values[0].value.name;
   let msg = await ikajson.getNow(BType);
   //console.log(msg);
