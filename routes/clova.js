@@ -54,12 +54,14 @@ function intent_check(jsonBody) {
       returnJson = asknow(jsonBody);
       break;
     case "Clova.GuideIntent":
+      let msg = "今のガチマッチを教えて。のように話しかけてください。";
+      returnJson = Build_response(msg, false);
       break;
     case "Clova.CancelIntent":
+      let msg = "終了します。またのご利用お待ちしています。";
+      returnJson = Build_response(msg, true);
       break;
     case "Clova.YesIntent":
-      let msg = "テスト";
-      returnJson = Build_response(msg, false);
       break;
     case "Clova.NoIntent":
       break;
