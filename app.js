@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var logger = require('morgan');
 
 var clovaRouter = require('./routes/clova');
+var alexaRouter = require('./routes/alexa');
 var usersRouter = require('./routes/users');
 
 var app = express();
@@ -25,6 +26,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.use('/ikastage2/clova', clovaRouter);
+app.use('/ikastage2/alexa', alexaRouter);
 app.use('/ikastage2', function(req, res, next) {
   res.send("top page");
 });
