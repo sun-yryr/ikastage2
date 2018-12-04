@@ -35,7 +35,7 @@ function request_check(jsonBody) {
   let returnJson;
   switch(jsonBody.request.type) {
     case "LaunchRequest":
-      let msg = "こんにちは、イカステージです。今のガチマッチを教えて。のように話しかけてください。";
+      let msg = "こんにちは、スプラステージです。今のガチマッチを教えて。のように話しかけてください。";
       returnJson = Build_response(msg, false);
       break;
     case "IntentRequest":
